@@ -39,7 +39,7 @@
                         <td id="cnt_${g.id}">
                             ${g.getMemberCount()}
                         </td>
-                        <#if user.inGroup(g.id)>
+                        <#if user?? && user.inGroup(g.id)>
                         <td><button id="btn_${g.id}" onclick="joins('${g.id}')" class="ui brown button">Leave</button></td>
                         <#else>
                         <td><button id="btn_${g.id}" onclick="joins('${g.id}')" class="ui green button">Join</button></td>

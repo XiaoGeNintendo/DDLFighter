@@ -23,6 +23,13 @@ fun PipelineContext<Unit,ApplicationCall>.user():User?{
     return DataModel.dms.users[username()]
 }
 
+fun PipelineContext<Unit,ApplicationCall>.buildEnv()=mutableMapOf(
+        "importances" to Importance.entries.toTypedArray(),
+        "model" to DataModel,
+        "username" to username(),
+        "user" to user(),
+        "serverTime" to LocalDateTime.now()
+    )
 fun Application.configureRouting() {
     install(StatusPages) {
         exception<Throwable> { call, cause ->
@@ -30,39 +37,30 @@ fun Application.configureRouting() {
         }
     }
 
-    val env = mutableMapOf(
-        "importances" to Importance.entries.toTypedArray(),
-        "model" to DataModel,
-        "user" to null,
-        "serverTime" to LocalDateTime.now()
-    )
+
     routing {
 
         //page part
         get("/") {
             DataModel.recache()
-            env["username"] = username()
-            env["user"] = user()
-            call.respond(FreeMarkerContent("test.ftl", env))
+            call.respond(FreeMarkerContent("test.ftl", buildEnv()))
         }
         get("/index") {
             DataModel.recache()
-            env["username"] = username()
-            env["user"] = user()
-            call.respond(FreeMarkerContent("test.ftl", env))
+            call.respond(FreeMarkerContent("test.ftl", buildEnv()))
         }
         get("/add") {
             if(username()==null){
                 call.respond("You need to login to add DDLs and events")
             }else{
-                call.respond(FreeMarkerContent("add.ftl", env))
+                call.respond(FreeMarkerContent("add.ftl", buildEnv()))
             }
         }
         get("/login") {
-            call.respond(FreeMarkerContent("login.ftl", env))
+            call.respond(FreeMarkerContent("login.ftl", buildEnv()))
         }
         get("/groups"){
-            call.respond(FreeMarkerContent("groups.ftl", env))
+            call.respond(FreeMarkerContent("groups.ftl", buildEnv()))
         }
 
         //do part
