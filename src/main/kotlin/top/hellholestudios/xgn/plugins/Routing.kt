@@ -238,6 +238,9 @@ fun Application.configureRouting() {
                     p["endtime"]!!
                 }
 
+                println(p["visibility"])
+                println(p["group"])
+
                 val cc = DDL(
                     p["name"]!!,
                     LocalDateTime.parse(p["starttime"]!!),
@@ -248,8 +251,8 @@ fun Application.configureRouting() {
                     enumValues<Importance>()[p["importance"]!!.toInt()],
                     LocalDateTime.now(),
                     UUID.randomUUID().toString().replace("-", "_"),
-                    Visibility.Public,
-                    ArrayList()
+                    enumValues<Visibility>()[p["visibility"]!!.toInt()],
+                    p["group"]!!.split(",").toMutableList()
                 )
                 DataModel.addDDL(cc)
                 println("Successfully added the given ddl")

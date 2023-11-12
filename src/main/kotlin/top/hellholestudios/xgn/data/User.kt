@@ -22,7 +22,7 @@ data class User(
     /**
      * This function will call DataModel.dms and thus is not independent
      */
-    fun getGroups():List<UserGroup>{
+    fun getGroupsD():List<UserGroup>{
         return groups.keys.map { DataModel.dms.groups[it]!! }
     }
 

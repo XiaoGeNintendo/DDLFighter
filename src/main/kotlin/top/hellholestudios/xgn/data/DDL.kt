@@ -21,6 +21,32 @@ data class DDL(
         return time in timeStart..timeEnd
     }
 
+    fun isVisibleTo(user: User?): Boolean{
+        if(visibility==Visibility.Public){
+            return true
+        }
+        if(visibility==Visibility.Private){
+            return user?.name==uploader
+        }
+        return visibleGroups.any { user?.inGroup(it)==true }
+    }
+
+    /**
+     * Not independent.
+     */
+    fun getVisibilityTag():String{
+        return when (visibility) {
+            Visibility.Public -> {
+                "Public - Everyone can see"
+            }
+            Visibility.Private -> {
+                "Private - Only you can see"
+            }
+            else -> {
+                visibleGroups.joinToString(", "){DataModel.dms.groups[it]!!.name}
+            }
+        }
+    }
     fun active(usr: User?):Boolean{
         if(getColor(usr)=="grey"){
             return false

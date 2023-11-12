@@ -42,6 +42,9 @@
 </#macro>
 
 <#macro ddl em>
+    <#if em.isVisibleTo(user)==false>
+        <#return>
+    </#if>
     <div class="ui fluid styled accordion" style="margin-top: 20px; margin-bottom: 20px;">
         <div class="<#if em.active(user)>active</#if> title">
             <h3>
@@ -68,6 +71,7 @@
             <i class="icon calendar plus"></i>${em.addDate}<br/>
             <i class="icon dna"></i>${em.internalID}<br/>
             <i class="icon radiation"></i>${em.importance}<br/>
+            <i class="icon eye"></i>${em.getVisibilityTag()}<br/>
 
             <#if user??>
                 <#if em.getColor(user)=="green">

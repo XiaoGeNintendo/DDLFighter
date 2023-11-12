@@ -48,8 +48,8 @@
                                 <i class="dropdown icon"></i>
                                 <div class="default text">Select Groups</div>
                                 <div class="menu">
-                                    <#list user.getGroups() as gp>
-                                        <option value="${gp.id}">${gp.name}</option>
+                                    <#list user.getGroupsD() as gp>
+                                        <div class="item" data-value="${gp.id}">${gp.name}</div>
                                     </#list>
                                 </div>
                             </div>
