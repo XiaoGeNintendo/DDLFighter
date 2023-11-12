@@ -9,6 +9,15 @@
                 <a class="ui primary <#if username??><#else>disabled</#if> button" href="add">Add</a>
                 <a class="ui red button" href="reload">Reload</a>
             </div>
+
+
+            <div class="ui pink segment">
+                    <h1><i class="icon fire"></i>Newly Added</h1>
+                    <#list model.newlyAdded as em>
+                        <@t.ddl em true/>
+                    </#list>
+            </div>
+
             <div class="ui red segment">
                 <h1><i class="icon exclamation triangle"></i>Emergency Events</h1>
                 <#list model.emergencies as em>

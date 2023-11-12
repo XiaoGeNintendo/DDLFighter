@@ -41,18 +41,18 @@
 
 </#macro>
 
-<#macro ddl em>
+<#macro ddl em forceHide=false>
     <#if em.isVisibleTo(user)==false>
         <#return>
     </#if>
     <div class="ui fluid styled accordion" style="margin-top: 20px; margin-bottom: 20px;">
-        <div class="<#if em.active(user)>active</#if> title">
+        <div class="<#if em.active(user) && !forceHide>active</#if> title">
             <h3>
                 <i class="${em.getColor(user)} icon ${em.getIcon(user)}"></i>
                 <span class="ui ${em.getColor(user)} text">${em.name}</span>
             </h3>
         </div>
-        <div class="<#if em.active(user)>active</#if> content">
+        <div class="<#if em.active(user) && !forceHide>active</#if> content">
             <div class="ui center aligned basic segment">
                 <h2 class="timedown td_${em.internalID}">Establishing Connection to the Time Master Server...</h2>
                 <script>

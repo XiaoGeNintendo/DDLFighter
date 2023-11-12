@@ -24,6 +24,7 @@ object DataModel {
     var ongoing: List<DDL> = ArrayList()
     var ended: List<DDL> = ArrayList()
     var future: List<DDL> = ArrayList()
+    var newlyAdded: List<DDL> = ArrayList()
 
     fun load() {
         val f = File("data.json")
@@ -61,6 +62,7 @@ object DataModel {
         ongoing=ddls.filter { it.contains(now) }
         ended=ddls.filter { it.timeEnd<now }.reversed()
         future=ddls.filter { it.timeStart>now }
+        newlyAdded=ddls.filter { it.addDate>=LocalDateTime.now().minusHours(24) }
     }
 
     fun addDDL(cc: DDL) {

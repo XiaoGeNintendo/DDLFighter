@@ -29,14 +29,16 @@
                 <#list model.userGroups() as g>
                     <tr>
                         <td>
-                            ${g.name}
+                            <a onclick="showModal('${g.id}')" href="#" title="Show Member List">${g.name}</a>
                             <#if user?? && (user.admin || g.creator==user.name)>
-                                <a href="delGroup/${g.id}"><i class="icon times"></i></a>
+                                <a href="delGroup/${g.id}" title="Delete Group"><i class="icon times"></i></a>
                             </#if>
                         </td>
                         <td>${g.creator}</td>
                         <td>${g.createdTime}</td>
-                        <td id="cnt_${g.id}">${g.getMemberCount()}</td>
+                        <td id="cnt_${g.id}">
+                            ${g.getMemberCount()}
+                        </td>
                         <#if user.inGroup(g.id)>
                         <td><button id="btn_${g.id}" onclick="joins('${g.id}')" class="ui brown button">Leave</button></td>
                         <#else>
@@ -47,9 +49,38 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="ui modal" id="userListModal">
+            <div class="header">User List</div>
+            <div class="content">
+                <div id="userList">
+
+                </div>
+                <div class="ui placeholder" id="placeholderList">
+                    <div class="paragraph">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 
     <script>
+        function showModal(id){
+            $('#placeholderList').show()
+            $('#userList').hide()
+            $('#userListModal').modal('show')
+            $.post("/userList/"+id,{},function(response){
+                $('#userList').html(response)
+                $('#userList').show()
+                $('#placeholderList').hide()
+            })
+        }
+
         function joins(id) {
             $.toast({
                 message:"Sent request... Please wait."

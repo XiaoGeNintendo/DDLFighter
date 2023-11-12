@@ -148,6 +148,16 @@ fun Application.configureRouting() {
             DataModel.save()
             call.respondRedirect("/groups")
         }
+        post("/userList/{id}"){
+            val id=call.parameters["id"]
+            if(id==null || id !in DataModel.dms.groups){
+                call.response.status(HttpStatusCode.BadRequest)
+                call.respond("Group does not exist or has been deleted.")
+                return@post
+            }
+            call.respondText(DataModel.dms.groups[id]!!.members.keys.joinToString("<br/>"))
+        }
+
         post("/join/{id}"){
             val usr=user()
             if(usr==null){
