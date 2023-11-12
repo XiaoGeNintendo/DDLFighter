@@ -34,6 +34,7 @@ fun Application.configureRouting() {
         "importances" to Importance.entries.toTypedArray(),
         "model" to DataModel,
         "user" to null,
+        "serverTime" to LocalDateTime.now()
     )
     routing {
 

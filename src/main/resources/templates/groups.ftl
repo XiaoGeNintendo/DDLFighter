@@ -67,6 +67,8 @@
                 </div>
             </div>
         </div>
+
+        <@t.footer />
     </body>
 
     <script>
@@ -114,6 +116,5 @@
             })
         }
         $('.dropdown').dropdown();
-        console.log("fuck");
     </script>
 </html>

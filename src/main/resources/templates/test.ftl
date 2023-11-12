@@ -45,6 +45,8 @@
                     <@t.ddl em/>
                 </#list>
             </div>
+
+            <@t.footer />
         </div>
 
         <script>

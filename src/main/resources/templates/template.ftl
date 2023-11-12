@@ -41,6 +41,18 @@
 
 </#macro>
 
+<#macro footer>
+    <hr/>
+    <div class="ui center aligned basic segment">
+        <span class="ui small grey text">
+            Current Server Time: ${serverTime} <br/>
+            Brought to you by XGN from HellHoleStudios 2023 <br/>
+            <a href="https://stats.uptimerobot.com/JPQjxfp1w2">HHS Service Status</a> |
+            <a href="https://github.com/XiaoGeNintendo/DDLFighter">Source Code</a>
+        </span>
+    </div>
+</#macro>
+
 <#macro ddl em forceHide=false>
     <#if em.isVisibleTo(user)==false>
         <#return>
