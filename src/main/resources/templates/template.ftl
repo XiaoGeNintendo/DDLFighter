@@ -13,22 +13,22 @@
 
 <#macro navbar>
     <div class="ui menu sticky" style="margin-bottom: 20px; margin-top: 20px;">
-        <a class="item" href="index">
+        <a class="item" href="/index">
             <img class="ui image" height="30" src="/static/logo.png"
                  alt="Logo"/>
         </a>
-        <a class="item" href="index">
+        <a class="item" href="/index">
             <i class="clock icon"></i>
             DDLs
         </a>
-        <a class="item" href="groups">
+        <a class="item" href="/groups">
             <i class="users icon"></i>
             Groups
         </a>
 
         <div class="right menu">
 
-            <a class="item" href="login">
+            <a class="item" href="/login">
                 <i class="user tie icon"></i>
                 ${username!"Login"}
             </a>

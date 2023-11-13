@@ -5,24 +5,34 @@
         <div class="ui container" id="main" style="margin-top: 20px; margin-bottom: 20px;">
             <@t.navbar />
 
-            <form class="ui form" action="doAdd" method="post">
+            <div class="ui icon message">
+                <i class="pen icon"></i>
+                <div class="content">
+                    <div class="header">
+                        Editing In Progress
+                    </div>
+                    <p>Now editing: ${edit.name}(${edit.internalID}).</p>
+                </div>
+            </div>
+
+            <form class="ui form" action="doEdit/${edit.internalID}" method="post">
                 <div class="field">
                     <label>
                         Event name*
-                        <input type="text" name="name" placeholder="Calculus Homework">
+                        <input type="text" name="name" value="${edit.name}" placeholder="Calculus Homework">
                     </label>
                 </div>
                 <div class="fields">
                     <div class="field">
                         <label>
                             Start time*
-                            <input type="datetime-local" name="starttime">
+                            <input type="datetime-local" value="${edit.timeStart}" name="starttime">
                         </label>
                     </div>
                     <div class="field">
                         <label>
                             <abbr title="Leave blank if it is a DDL">End time</abbr>
-                            <input type="datetime-local" name="endtime">
+                            <input type="datetime-local" value="${edit.timeEnd}" name="endtime">
                         </label>
                     </div>
                 </div>
@@ -32,7 +42,7 @@
                     <div class="field">
                         Visibility*
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="visibility">
+                            <input type="hidden" value="${edit.visibility.ordinal()}" name="visibility">
                             <i class="dropdown icon"></i>
                             <div class="default text">Choose Visibility</div>
                             <div class="menu">
@@ -46,7 +56,7 @@
                     <div class="field">
                         <abbr title="Only required when visibility is protected">Visible Groups</abbr>
                         <div class="ui clearable multiple search selection dropdown">
-                            <input type="hidden" name="group">
+                            <input type="hidden" value="${edit.visibleGroupString()}" name="group">
                             <i class="dropdown icon"></i>
                             <div class="default text">Select Groups</div>
                             <div class="menu">
@@ -61,13 +71,13 @@
                 <div class="field">
                     <label>
                         Tags
-                        <input type="text" name="tag" placeholder="Use , to separate. eg: math, homework, hurry up">
+                        <input type="text" name="tag" value="${edit.tagString()}" placeholder="Use , to separate. eg: math, homework, hurry up">
                     </label>
                 </div>
                 <div class="field">
                     Importance*
                     <div class="ui selection dropdown">
-                        <input type="hidden" name="importance">
+                        <input type="hidden" value="${edit.importance.ordinal()}" name="importance">
                         <i class="dropdown icon"></i>
                         <div class="default text">Choose Importance</div>
                         <div class="menu">
@@ -80,7 +90,8 @@
                 <div class="desc">
                     <label>
                         Description
-                        <textarea name="desc" placeholder="Enter description of the event"></textarea>
+                        <textarea name="desc" placeholder="Enter description of the event">${edit.descString()}
+                        </textarea>
                     </label>
                 </div>
                 <hr/>

@@ -17,6 +17,17 @@ data class DDL(
     val visibleGroups: MutableList<String>
 ){
 
+    fun descString():String{
+        return desc.replace("<br/>","\n").trim()
+    }
+    fun visibleGroupString():String{
+        return visibleGroups.joinToString(",")
+    }
+
+    fun tagString():String{
+        return tag.joinToString(", ")
+    }
+
     fun contains(time: LocalDateTime):Boolean{
         return time in timeStart..timeEnd
     }

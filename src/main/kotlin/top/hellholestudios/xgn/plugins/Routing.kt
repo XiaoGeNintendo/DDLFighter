@@ -56,6 +56,30 @@ fun Application.configureRouting() {
                 call.respond(FreeMarkerContent("add.ftl", buildEnv()))
             }
         }
+        get("/edit/{id}"){
+            val user=user()
+            val id=call.parameters["id"]
+            val ddl=DataModel.findDDL(id)
+            if(user==null){
+                call.respond("You need to login to edit DDLs and events")
+                call.response.status(HttpStatusCode.Unauthorized)
+                return@get
+            }
+
+            if(id==null || ddl==null){
+                call.respond("Cannot find such DDL")
+                call.response.status(HttpStatusCode.BadRequest)
+                return@get
+            }
+
+            if(user.name!=ddl.uploader && !user.admin){
+                call.respond("Unauthorized")
+                call.response.status(HttpStatusCode.Unauthorized)
+                return@get
+            }
+
+            call.respond(FreeMarkerContent("edit.ftl", buildEnv().apply { this["edit"]=ddl }))
+        }
         get("/login") {
             call.respond(FreeMarkerContent("login.ftl", buildEnv()))
         }
@@ -217,7 +241,7 @@ fun Application.configureRouting() {
                 return@post
             }
             val p=call.receiveParameters()
-            if(p["name"]==null){
+            if(p["name"]==null || p["name"]?.length==0){
                 call.response.status(HttpStatusCode.BadRequest)
                 return@post
             }
