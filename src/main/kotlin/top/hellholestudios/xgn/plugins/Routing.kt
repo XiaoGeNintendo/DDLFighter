@@ -93,6 +93,10 @@ fun Application.configureRouting() {
                 call.respond("Username occupied.")
                 return@post
             }
+            if(p["name"]?.length !in 1..16){
+                call.respond("The length of username must be between 1 and 16")
+                return@post
+            }
 
             DataModel.dms.users[p["name"]!!] =
                 User(p["name"]!!, p["password"]!!, HashMap(), HashMap(),false, UUID.randomUUID().toString().replace("-", "_"))
@@ -256,7 +260,7 @@ fun Application.configureRouting() {
                     LocalDateTime.parse(endtime),
                     p["tag"]!!.split(",").map { it.trim() }.toMutableList(),
                     username()!!,
-                    p["desc"]!!,
+                    p["desc"]!!.replace("\n","<br/>"),
                     enumValues<Importance>()[p["importance"]!!.toInt()],
                     LocalDateTime.now(),
                     UUID.randomUUID().toString().replace("-", "_"),
