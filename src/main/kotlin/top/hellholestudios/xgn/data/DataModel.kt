@@ -58,13 +58,25 @@ object DataModel {
         if(sort) {
             ddls.sortBy { it.timeStart }
         }
+
         emergencies=ddls.filter { it.timeEnd>now && it.importance==Importance.Emergency }
         ongoing=ddls.filter { it.contains(now) }
         ended=ddls.filter { it.timeEnd<now }.reversed()
         future=ddls.filter { it.timeStart>now }
-        newlyAdded=ddls.filter { it.addDate>=LocalDateTime.now().minusHours(24) }
+        newlyAdded=ddls.filter { it.addDate>=LocalDateTime.now().minusHours(24) }.sortedBy { it.addDate }.reversed()
     }
 
+    /**
+     * THis will automatically recache and save the DMS
+     */
+    fun editDDL(id: String, cc: DDL){
+        dms.ddls[dms.ddls.indexOfFirst { it.internalID==id }]=cc
+        recache(true)
+        save()
+    }
+    /**
+     * This will automatically recache and save the DMS
+     */
     fun addDDL(cc: DDL) {
         dms.ddls.add(cc)
         recache(true)

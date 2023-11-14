@@ -308,8 +308,7 @@ fun Application.configureRouting() {
                     p["group"]!!.split(",").toMutableList()
                 )
 
-                DataModel.dms.ddls[DataModel.dms.ddls.indexOfFirst { it.internalID==id }]=cc
-                DataModel.save()
+                DataModel.editDDL(id,cc)
 
                 println("Successfully modified the given ddl")
                 call.respondRedirect("/index")
@@ -350,7 +349,6 @@ fun Application.configureRouting() {
                     p["group"]!!.split(",").toMutableList()
                 )
                 DataModel.addDDL(cc)
-                DataModel.save()
                 println("Successfully added the given ddl")
                 call.respondRedirect("index")
             } catch (e: Exception) {
