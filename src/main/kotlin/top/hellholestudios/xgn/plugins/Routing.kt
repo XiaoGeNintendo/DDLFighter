@@ -294,10 +294,13 @@ fun Application.configureRouting() {
                 println(p["visibility"])
                 println(p["group"])
 
+                val stt=LocalDateTime.parse(p["starttime"]!!)
+                val edt=LocalDateTime.parse(endtime).coerceAtLeast(stt)
+
                 val cc = DDL(
                     p["name"]!!,
-                    LocalDateTime.parse(p["starttime"]!!),
-                    LocalDateTime.parse(endtime),
+                    stt,
+                    edt,
                     p["tag"]!!.split(",").map { it.trim() }.toMutableList(),
                     username()!!,
                     p["desc"]!!.replace("\n","<br/>")+"<br/><i>This DDL is revised</i>",
