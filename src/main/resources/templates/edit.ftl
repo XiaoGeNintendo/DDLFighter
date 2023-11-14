@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <form class="ui form" action="doEdit/${edit.internalID}" method="post">
+            <form class="ui form" action="/doEdit/${edit.internalID}" method="post">
                 <div class="field">
                     <label>
                         Event name*

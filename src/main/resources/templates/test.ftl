@@ -10,12 +10,28 @@
                 <a class="ui red button" href="reload">Reload</a>
             </div>
 
-
             <div class="ui pink segment">
-                    <h1><i class="icon fire"></i>Newly Added</h1>
+                <h1><i class="icon fire"></i>Newly Added</h1>
+                <div class="ui comments">
                     <#list model.newlyAdded as em>
-                        <@t.ddl em true/>
+                        <#if em.isVisibleTo(user)>
+                            <div class="comment">
+
+                                <a class="avatar">
+                                    <i class="fire icon"></i>
+                                </a>
+
+                                <div class="content">
+                                    <a class="author">${em.uploader}</a>
+                                    <div class="metadata">
+                                        <div class="date">${em.addDate}</div>
+                                    </div>
+                                    <div class="text">Added <a href="#box_${em.internalID}">${em.name}</a> to ${em.getVisibilityTag()}</div>
+                                </div>
+                            </div>
+                        </#if>
                     </#list>
+                </div>
             </div>
 
             <div class="ui red segment">

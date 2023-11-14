@@ -260,6 +260,64 @@ fun Application.configureRouting() {
             call.respondRedirect("/groups")
         }
 
+        post("/doEdit/{id}") {
+            try {
+                val user=user()
+                val id=call.parameters["id"]
+                val ddl=DataModel.findDDL(id)
+                if(user==null){
+                    call.respond("You need to login to edit DDLs and events")
+                    call.response.status(HttpStatusCode.Unauthorized)
+                    return@post
+                }
+
+                if(id==null || ddl==null){
+                    call.respond("Cannot find such DDL")
+                    call.response.status(HttpStatusCode.BadRequest)
+                    return@post
+                }
+
+                if(user.name!=ddl.uploader && !user.admin){
+                    call.respond("Unauthorized")
+                    call.response.status(HttpStatusCode.Unauthorized)
+                    return@post
+                }
+
+                val p = call.receiveParameters()
+
+                val endtime = if (p["endtime"] == null || p["endtime"] == "") {
+                    p["starttime"]!!
+                } else {
+                    p["endtime"]!!
+                }
+
+                println(p["visibility"])
+                println(p["group"])
+
+                val cc = DDL(
+                    p["name"]!!,
+                    LocalDateTime.parse(p["starttime"]!!),
+                    LocalDateTime.parse(endtime),
+                    p["tag"]!!.split(",").map { it.trim() }.toMutableList(),
+                    username()!!,
+                    p["desc"]!!.replace("\n","<br/>")+"<br/><i>This DDL is revised</i>",
+                    enumValues<Importance>()[p["importance"]!!.toInt()],
+                    LocalDateTime.now(),
+                    id,
+                    enumValues<Visibility>()[p["visibility"]!!.toInt()],
+                    p["group"]!!.split(",").toMutableList()
+                )
+
+                DataModel.dms.ddls[DataModel.dms.ddls.indexOfFirst { it.internalID==id }]=cc
+                DataModel.save()
+
+                println("Successfully modified the given ddl")
+                call.respondRedirect("/index")
+            } catch (e: Exception) {
+                call.response.status(HttpStatusCode.BadRequest)
+                call.respond("Failed to process queries as: $e")
+            }
+        }
         post("/doAdd") {
             try {
                 if(user()==null){
@@ -292,6 +350,7 @@ fun Application.configureRouting() {
                     p["group"]!!.split(",").toMutableList()
                 )
                 DataModel.addDDL(cc)
+                DataModel.save()
                 println("Successfully added the given ddl")
                 call.respondRedirect("index")
             } catch (e: Exception) {

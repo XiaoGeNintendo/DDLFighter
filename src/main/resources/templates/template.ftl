@@ -57,7 +57,7 @@
     <#if em.isVisibleTo(user)==false>
         <#return>
     </#if>
-    <div class="ui fluid styled accordion" style="margin-top: 20px; margin-bottom: 20px;">
+    <div class="ui fluid styled accordion" id="box_${em.internalID}" style="margin-top: 20px; margin-bottom: 20px;">
         <div class="<#if em.active(user) && !forceHide>active</#if> title">
             <h3>
                 <i class="${em.getColor(user)} icon ${em.getIcon(user)}"></i>
@@ -100,6 +100,9 @@
             <br/><br/>
             <#if user?? && (user.admin || username==em.uploader)>
                 <a href="del/${em.internalID}" class="ui red button">Delete</a>
+            </#if>
+            <#if user?? && (user.admin || username==em.uploader)>
+                <a href="edit/${em.internalID}" class="ui primary button">Edit</a>
             </#if>
             <#if user??>
                 <#if em.getColor(user)=="green">
