@@ -71,6 +71,7 @@
         </div>
 
         <script>
+            $('.dropdown').dropdown();
             $('#compact').prop('checked',${compact?string('true', 'false')});
             function changeCheckbox(){
                 console.log("H")

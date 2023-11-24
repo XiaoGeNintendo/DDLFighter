@@ -28,10 +28,24 @@
 
         <div class="right menu">
 
-            <a class="item" href="/login">
-                <i class="user tie icon"></i>
-                ${username!"Login"}
-            </a>
+            <#if user??>
+                <div class="ui dropdown icon item">
+                    <i class="user tie icon"></i>${username}
+                    <div class="menu">
+                        <div class="item">
+                            <a href="/logout">
+                                <i class="sign out alternate icon"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <#else>
+                <a class="item" href="/login">
+                    <i class="user tie icon"></i>
+                    Login/Register
+                </a>
+            </#if>
         </div>
     </div>
 

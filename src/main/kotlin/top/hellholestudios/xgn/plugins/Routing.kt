@@ -90,7 +90,10 @@ fun Application.configureRouting() {
         get("/groups"){
             call.respond(FreeMarkerContent("groups.ftl", buildEnv()))
         }
-
+        get("/logout"){
+            call.sessions.clear(call.sessions.findName(UsernameSession::class))
+            call.respondRedirect("/index")
+        }
         //do part
         post("/doLogin") {
             val p = call.receiveParameters()
