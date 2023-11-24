@@ -42,12 +42,16 @@ fun Application.configureRouting() {
 
         //page part
         get("/") {
-            DataModel.recache()
-            call.respond(FreeMarkerContent("test.ftl", buildEnv()))
+            call.respondRedirect("/index")
         }
         get("/index") {
-            DataModel.recache()
-            call.respond(FreeMarkerContent("test.ftl", buildEnv()))
+            val c=call.request.queryParameters
+            val compact=(c["compact"] ?: "false")=="true"
+//            call.respond(FreeMarkerContent("test.ftl", buildEnv()))
+
+            call.respond(FreeMarkerContent("test.ftl", buildEnv().apply{
+                this["compact"]=compact
+            }))
         }
         get("/add") {
             if(username()==null){

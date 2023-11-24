@@ -42,6 +42,18 @@ data class DDL(
         return visibleGroups.any { user?.inGroup(it)==true }
     }
 
+    fun isNoDuration():Boolean{
+        return timeEnd<=timeStart
+    }
+
+    fun isFinishedBy(user: User?): Boolean{
+        if(user==null){
+            return false
+        }
+
+        return this.internalID in user.completed
+    }
+
     /**
      * Not independent.
      */

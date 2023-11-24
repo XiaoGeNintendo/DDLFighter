@@ -32,7 +32,11 @@
                     <div class="field">
                         <label>
                             <abbr title="Leave blank if it is a DDL">End time</abbr>
-                            <input type="datetime-local" value="${edit.timeEnd}" name="endtime">
+                            <#if edit.isNoDuration()>
+                                <input type="datetime-local" name="endtime">
+                            <#else>
+                                <input type="datetime-local" value="${edit.timeEnd}" name="endtime">
+                            </#if>
                         </label>
                     </div>
                 </div>

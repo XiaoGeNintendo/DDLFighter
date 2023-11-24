@@ -6,8 +6,13 @@
             <@t.navbar />
 
             <div class="ui segment">
-                <a class="ui primary <#if username??><#else>disabled</#if> button" href="add">Add</a>
-                <a class="ui red button" href="reload">Reload</a>
+                <a class="ui primary <#if username??><#else>disabled</#if> button" tabindex="0" href="add">Add</a>
+                <a class="ui red button"  tabindex="0" href="reload">Reload</a>
+
+                <label>
+                    <abbr title="Completely hide all completed tasks and fold other tasks">Compact Mode</abbr>
+                    <input type="checkbox" id="compact" tabindex="0" onchange="changeCheckbox()">
+                </label>
             </div>
 
             <div class="ui pink segment">
@@ -66,6 +71,12 @@
         </div>
 
         <script>
+            $('#compact').prop('checked',${compact?string('true', 'false')});
+            function changeCheckbox(){
+                console.log("H")
+                location.href="?compact="+$('#compact').is(":checked")
+            }
+
             $('.ui.accordion').accordion();
             $('.popup')
               .popup({

@@ -57,14 +57,17 @@
     <#if em.isVisibleTo(user)==false>
         <#return>
     </#if>
+    <#if em.isFinishedBy(user) && compact>
+        <#return>
+    </#if>
     <div class="ui fluid styled accordion" id="box_${em.internalID}" style="margin-top: 20px; margin-bottom: 20px;">
-        <div class="<#if em.active(user) && !forceHide>active</#if> title">
+        <div class="<#if em.active(user) && !forceHide && !compact>active</#if> title">
             <h3>
                 <i class="${em.getColor(user)} icon ${em.getIcon(user)}"></i>
                 <span class="ui ${em.getColor(user)} text">${em.name}</span>
             </h3>
         </div>
-        <div class="<#if em.active(user) && !forceHide>active</#if> content">
+        <div class="<#if em.active(user) && !forceHide && !compact>active</#if> content">
             <div class="ui center aligned basic segment">
                 <h2 class="timedown td_${em.internalID}">Establishing Connection to the Time Master Server...</h2>
                 <script>
