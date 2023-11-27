@@ -45,6 +45,8 @@ fun Application.configureRouting() {
             call.respondRedirect("/index")
         }
         get("/index") {
+            DataModel.timedRecache()
+            
             val c=call.request.queryParameters
             val compact=(c["compact"] ?: "false")=="true"
 //            call.respond(FreeMarkerContent("test.ftl", buildEnv()))

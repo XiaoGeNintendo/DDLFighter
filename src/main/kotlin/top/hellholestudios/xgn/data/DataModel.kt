@@ -8,6 +8,9 @@ import java.nio.charset.Charset
 import java.time.LocalDateTime
 
 object DataModel {
+
+    var lastRecache:Long = 0
+
     @Transient
     val gson = GsonBuilder().registerTypeAdapter(LocalDateTime::class.java,LocalDateTypeAdapter()).create()
 
@@ -51,6 +54,16 @@ object DataModel {
         println("Saved DDLs")
     }
 
+    /**
+     * Request a recache with a time interval <br/>
+     * Will not sort the database
+     */
+    fun timedRecache(){
+        if(System.currentTimeMillis()- lastRecache>=60*1000){ //1 minute
+            recache()
+        }
+    }
+
     fun recache(sort:Boolean=false) {
         val now = LocalDateTime.now()
 
@@ -64,10 +77,12 @@ object DataModel {
         ended=ddls.filter { it.timeEnd<now }.reversed()
         future=ddls.filter { it.timeStart>now }
         newlyAdded=ddls.filter { it.addDate>=LocalDateTime.now().minusHours(24) }.sortedBy { it.addDate }.reversed()
+
+        lastRecache=System.currentTimeMillis()
     }
 
     /**
-     * THis will automatically recache and save the DMS
+     * This will automatically recache and save the DMS
      */
     fun editDDL(id: String, cc: DDL){
         dms.ddls[dms.ddls.indexOfFirst { it.internalID==id }]=cc
