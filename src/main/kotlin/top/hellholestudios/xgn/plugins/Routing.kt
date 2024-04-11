@@ -46,13 +46,15 @@ fun Application.configureRouting() {
         }
         get("/index") {
             DataModel.timedRecache()
-            
+
             val c=call.request.queryParameters
             val compact=(c["compact"] ?: "false")=="true"
+            val archive=(c["archive"] ?: "false")=="true"
 //            call.respond(FreeMarkerContent("test.ftl", buildEnv()))
 
             call.respond(FreeMarkerContent("test.ftl", buildEnv().apply{
                 this["compact"]=compact
+                this["archive"]=archive
             }))
         }
         get("/add") {

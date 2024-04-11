@@ -12,6 +12,8 @@
                 <label>
                     <abbr title="Completely hide all completed tasks and fold other tasks">Compact Mode</abbr>
                     <input type="checkbox" id="compact" tabindex="0" onchange="changeCheckbox()">
+                    <abbr title="Show tasks that ended 90 days ago">Show Archived</abbr>
+                    <input type="checkbox" id="archive" tabindex="0" onchange="changeCheckbox()">
                 </label>
             </div>
 
@@ -63,7 +65,11 @@
             <div class="ui grey segment">
                 <h1><i class="icon bell slash"></i>Past Events</h1>
                 <#list model.ended as em>
-                    <@t.ddl em/>
+                    <#if archive || !em.isArchived()>
+                        <@t.ddl em/>
+                    <#else>
+                        <#break>
+                    </#if>
                 </#list>
             </div>
 
@@ -73,9 +79,10 @@
         <script>
             $('.dropdown').dropdown();
             $('#compact').prop('checked',${compact?string('true', 'false')});
+            $('#archive').prop('checked',${archive?string('true', 'false')});
             function changeCheckbox(){
                 console.log("H")
-                location.href="?compact="+$('#compact').is(":checked")
+                location.href="?compact="+$('#compact').is(":checked")+"&archive="+$('#archive').is(':checked')
             }
 
             $('.ui.accordion').accordion();

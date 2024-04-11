@@ -42,6 +42,15 @@ data class DDL(
         return visibleGroups.any { user?.inGroup(it)==true }
     }
 
+    /**
+     * A DDL is considered archived if it has ended for 90 days
+     * @return if the ddl is archived
+     */
+    fun isArchived(): Boolean{
+        val now=LocalDateTime.now()
+        return now.minusDays(90)>=timeEnd
+    }
+
     fun isNoDuration():Boolean{
         return timeEnd<=timeStart
     }
